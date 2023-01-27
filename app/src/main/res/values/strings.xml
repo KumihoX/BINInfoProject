@@ -2,7 +2,7 @@
     <string name="app_name">BINInfo</string>
     <string name="brand">BRAND</string>
     <string name="scheme">SCHEME / NETWORK</string>
-    <string name="description">Enter the first digits of a card number (BIN/IIN)</string>
+    <string name="description">Enter the first digits of a card number</string>
     <string name="card_number">CARD NUMBER</string>
     <string name="length">LENGTH</string>
     <string name="nothing">\?</string>
@@ -13,4 +13,6 @@
     <string name="latitude">latitude</string>
     <string name="longitude">longitude</string>
     <string name="bank">BANK</string>
+    <string name="history">HISTORY</string>
+    <string name="history_description">Select the card number you are interested in and click on it, data about it will appear in the fields above</string>
 </resources>

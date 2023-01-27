@@ -18,6 +18,12 @@ class MainViewModel : ViewModel() {
     private val _binNumber = mutableStateOf("")
     var binNumber: State<String> = _binNumber
 
+    private val _historySize = mutableStateOf(0)
+    var historySize: State<Int> = _historySize
+
+    private val _history = mutableListOf<String>()
+    var history: MutableList<String> = _history
+
     fun onBinNumberChange(number: String) {
         _binNumber.value = number
 
@@ -31,5 +37,10 @@ class MainViewModel : ViewModel() {
                 _binInfo.value = BINInfo()
             }
         }
+    }
+
+    fun addToHistory() {
+        _history.add(_binNumber.value)
+        _historySize.value = _history.size
     }
 }

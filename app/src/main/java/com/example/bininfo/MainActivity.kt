@@ -6,14 +6,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.DarkGray
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -23,10 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.bininfo.ui.theme.BINInfoTheme
-import com.example.bininfo.ui.theme.Black
-import com.example.bininfo.ui.theme.Blue
-import com.example.bininfo.ui.theme.Purple200
+import com.example.bininfo.ui.theme.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,9 +52,10 @@ fun MainScreen() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp, 16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         BINField(viewModel = viewModel) { viewModel.onBinNumberChange(it) }
-        Description()
+        AddToHistory(viewModel = viewModel)
         Scheme(viewModel = viewModel)
         Brand(viewModel = viewModel)
         CardNumber(viewModel = viewModel)
@@ -62,6 +63,11 @@ fun MainScreen() {
         Prepaid(viewModel = viewModel)
         Country(viewModel = viewModel)
         Bank(viewModel = viewModel)
+
+        if (viewModel.historySize.value != 0){
+            History()
+            HistoryList(viewModel = viewModel)
+        }
     }
 }
 
@@ -76,6 +82,11 @@ fun BINField(viewModel: MainViewModel, onBINChange: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth(),
         enabled = true,
+        placeholder = { Text (
+            text = stringResource(R.string.description),
+            color = Gray,
+            maxLines = 1
+        ) },
         shape = RoundedCornerShape(8.dp),
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -89,16 +100,28 @@ fun BINField(viewModel: MainViewModel, onBINChange: (String) -> Unit) {
 }
 
 @Composable
-fun Description() {
-    Text(
-        text = stringResource(R.string.description),
+fun AddToHistory(viewModel: MainViewModel) {
+    Button(
+        onClick = { viewModel.addToHistory() },
+        enabled = viewModel.binNumber.value.isNotEmpty(),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(0.dp, 8.dp),
-        textAlign = TextAlign.Center,
-        fontSize = 19.sp,
-        color = DarkGray
+            .padding(0.dp, 8.dp, 0.dp, 0.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Purple200,
+            contentColor = White,
+            disabledBackgroundColor = Gray,
+            disabledContentColor = White
+        )
     )
+    {
+        Text(
+            text = "Add to history",
+            textAlign = TextAlign.Center,
+            fontSize = 19.sp
+        )
+    }
 }
 
 @Composable
@@ -274,6 +297,65 @@ fun Bank(viewModel: MainViewModel) {
             .fillMaxWidth(),
     )
 }
+
+@Composable
+fun History() {
+    Text(
+        text = stringResource(R.string.history),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp, 16.dp, 0.dp, 2.dp),
+        textAlign = TextAlign.Center,
+        fontSize = 21.sp,
+        color = Black
+    )
+
+    Text(
+        text = stringResource(R.string.history_description),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp, 0.dp, 0.dp, 2.dp),
+        textAlign = TextAlign.Center,
+        fontSize = 14.sp,
+        color = Gray
+    )
+
+}
+
+@Composable
+fun HistoryList(viewModel: MainViewModel) {
+    val countCardNumbers = remember {viewModel.historySize}
+    var curCardNumber = 0
+
+    while (curCardNumber != countCardNumbers.value) {
+        HistoryElement(number = viewModel.history[curCardNumber], viewModel = viewModel)
+
+        curCardNumber ++
+    }
+}
+
+@Composable
+fun HistoryElement(number: String, viewModel: MainViewModel) {
+    Button(
+        onClick = { viewModel.onBinNumberChange(number) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp, 8.dp, 0.dp, 0.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Purple200,
+            contentColor = White
+        )
+    )
+    {
+        Text(
+            text = number,
+            textAlign = TextAlign.Start,
+            fontSize = 16.sp
+        )
+    }
+}
+
 
 @Composable
 fun Headline(name: String) {
