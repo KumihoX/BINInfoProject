@@ -64,7 +64,7 @@ fun MainScreen() {
         Country(viewModel = viewModel)
         Bank(viewModel = viewModel)
 
-        if (viewModel.historySize.value != 0){
+        if (viewModel.historySize.value != 0) {
             History()
             HistoryList(viewModel = viewModel)
         }
@@ -82,11 +82,13 @@ fun BINField(viewModel: MainViewModel, onBINChange: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth(),
         enabled = true,
-        placeholder = { Text (
-            text = stringResource(R.string.description),
-            color = Gray,
-            maxLines = 1
-        ) },
+        placeholder = {
+            Text(
+                text = stringResource(R.string.description),
+                color = Gray,
+                maxLines = 1
+            )
+        },
         shape = RoundedCornerShape(8.dp),
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -324,13 +326,13 @@ fun History() {
 
 @Composable
 fun HistoryList(viewModel: MainViewModel) {
-    val countCardNumbers = remember {viewModel.historySize}
+    val countCardNumbers = remember { viewModel.historySize }
     var curCardNumber = 0
 
     while (curCardNumber != countCardNumbers.value) {
         HistoryElement(number = viewModel.history[curCardNumber], viewModel = viewModel)
 
-        curCardNumber ++
+        curCardNumber++
     }
 }
 
