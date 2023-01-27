@@ -102,19 +102,19 @@ fun Description() {
 }
 
 @Composable
-fun Scheme(viewModel: MainViewModel){
+fun Scheme(viewModel: MainViewModel) {
     Headline(name = stringResource(R.string.scheme))
     StringInfo(data = viewModel.binInfo.value.scheme)
 }
 
 @Composable
-fun Brand(viewModel: MainViewModel){
+fun Brand(viewModel: MainViewModel) {
     Headline(name = stringResource(R.string.brand))
     StringInfo(data = viewModel.binInfo.value.brand)
 }
 
 @Composable
-fun CardNumber(viewModel: MainViewModel){
+fun CardNumber(viewModel: MainViewModel) {
     Headline(name = stringResource(R.string.card_number))
 
     Row(Modifier.fillMaxWidth())
@@ -123,10 +123,11 @@ fun CardNumber(viewModel: MainViewModel){
         {
             SecondHeadline(name = stringResource(R.string.length))
             Text(
-                text = if (viewModel.binInfo.value.number.length != null)
-                {viewModel.binInfo.value.number.length.toString()} else {
-                                    stringResource(R.string.nothing)
-                                },
+                text = if (viewModel.binInfo.value.number.length != null) {
+                    viewModel.binInfo.value.number.length.toString()
+                } else {
+                    stringResource(R.string.nothing)
+                },
                 modifier = Modifier
                     .wrapContentSize(),
                 textAlign = TextAlign.Start,
@@ -145,19 +146,19 @@ fun CardNumber(viewModel: MainViewModel){
 }
 
 @Composable
-fun Type(viewModel: MainViewModel){
+fun Type(viewModel: MainViewModel) {
     Headline(name = stringResource(R.string.type))
     StringInfo(data = viewModel.binInfo.value.type)
 }
 
 @Composable
-fun Prepaid(viewModel: MainViewModel){
+fun Prepaid(viewModel: MainViewModel) {
     Headline(name = stringResource(R.string.prepaid))
     BooleanInfo(viewModel.binInfo.value.prepaid)
 }
 
 @Composable
-fun Country(viewModel: MainViewModel){
+fun Country(viewModel: MainViewModel) {
     Headline(name = stringResource(R.string.country))
 
     Row(Modifier.fillMaxWidth())
@@ -171,8 +172,7 @@ fun Country(viewModel: MainViewModel){
             fontSize = 16.sp,
             color = DarkGray
         )
-        if (viewModel.binInfo.value.country.emoji != stringResource(R.string.nothing))
-        {
+        if (viewModel.binInfo.value.country.emoji != stringResource(R.string.nothing)) {
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = viewModel.binInfo.value.country.name,
@@ -188,25 +188,31 @@ fun Country(viewModel: MainViewModel){
     val context = LocalContext.current
 
     ClickableText(
-        text = AnnotatedString("(" +
+        text = AnnotatedString(
+            "(" +
                     stringResource(R.string.latitude) + ": "
-                            + "${when (viewModel.binInfo.value.country.latitude){
-                null -> stringResource(R.string.nothing)
-                else -> viewModel.binInfo.value.country.latitude.toString()
-            }
-        }, "
-            + stringResource(R.string.longitude) + ": "  +
-            "${
-                when (viewModel.binInfo.value.country.longitude){
+                    + "${
+                when (viewModel.binInfo.value.country.latitude) {
                     null -> stringResource(R.string.nothing)
-                    else -> viewModel.binInfo.value.country.longitude.toString()
-                }})"),
+                    else -> viewModel.binInfo.value.country.latitude.toString()
+                }
+            }, "
+                    + stringResource(R.string.longitude) + ": " +
+                    "${
+                        when (viewModel.binInfo.value.country.longitude) {
+                            null -> stringResource(R.string.nothing)
+                            else -> viewModel.binInfo.value.country.longitude.toString()
+                        }
+                    })"
+        ),
         onClick = {
-            if (viewModel.binInfo.value.country.latitude != null)
-            {
+            if (viewModel.binInfo.value.country.latitude != null) {
                 val latitude = viewModel.binInfo.value.country.latitude
                 val longitude = viewModel.binInfo.value.country.longitude
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("google.streetview:cbll=$latitude,$longitude"))
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("google.streetview:cbll=$latitude,$longitude")
+                )
                 intent.setPackage("com.google.android.apps.maps")
 
                 context.startActivity(intent)
@@ -220,7 +226,7 @@ fun Country(viewModel: MainViewModel){
 }
 
 @Composable
-fun Bank(viewModel: MainViewModel){
+fun Bank(viewModel: MainViewModel) {
     Headline(name = stringResource(R.string.bank))
     StringInfo(data = viewModel.binInfo.value.bank.name)
 
@@ -229,14 +235,21 @@ fun Bank(viewModel: MainViewModel){
     ClickableText(
         text = AnnotatedString(viewModel.binInfo.value.bank.url),
         style = TextStyle(
-            color = if (viewModel.binInfo.value.bank.url != "?") {Blue} else {Black},
+            color = if (viewModel.binInfo.value.bank.url != "?") {
+                Blue
+            } else {
+                Black
+            },
             fontSize = 16.sp
         ),
         onClick = {
-                  if (viewModel.binInfo.value.bank.url != "?"){
-                      val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://" + viewModel.binInfo.value.bank.url))
-                      context.startActivity(intent)
-                  }
+            if (viewModel.binInfo.value.bank.url != "?") {
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://" + viewModel.binInfo.value.bank.url)
+                )
+                context.startActivity(intent)
+            }
         },
         modifier = Modifier
             .fillMaxWidth(),
@@ -249,8 +262,11 @@ fun Bank(viewModel: MainViewModel){
             fontSize = 16.sp
         ),
         onClick = {
-            if (viewModel.binInfo.value.bank.phone != "?"){
-                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + viewModel.binInfo.value.bank.phone))
+            if (viewModel.binInfo.value.bank.phone != "?") {
+                val intent = Intent(
+                    Intent.ACTION_DIAL,
+                    Uri.parse("tel:" + viewModel.binInfo.value.bank.phone)
+                )
                 context.startActivity(intent)
             }
         },
@@ -260,7 +276,7 @@ fun Bank(viewModel: MainViewModel){
 }
 
 @Composable
-fun Headline(name: String){
+fun Headline(name: String) {
     Text(
         text = name,
         modifier = Modifier
@@ -273,7 +289,7 @@ fun Headline(name: String){
 }
 
 @Composable
-fun SecondHeadline(name: String){
+fun SecondHeadline(name: String) {
     Text(
         text = name,
         modifier = Modifier
@@ -286,7 +302,7 @@ fun SecondHeadline(name: String){
 }
 
 @Composable
-fun StringInfo(data: String){
+fun StringInfo(data: String) {
     Text(
         text = data,
         modifier = Modifier
@@ -298,9 +314,9 @@ fun StringInfo(data: String){
 }
 
 @Composable
-fun BooleanInfo(data: Boolean? = null){
+fun BooleanInfo(data: Boolean? = null) {
     Text(
-        text = when (data){
+        text = when (data) {
             true -> "YES"
             false -> "NO"
             else -> "?"

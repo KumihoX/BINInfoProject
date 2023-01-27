@@ -27,8 +27,7 @@ class MainViewModel : ViewModel() {
                 binRepository.getInfo(number).collect {
                     _binInfo.value = it
                 }
-            }
-            catch (e: HttpException) {
+            } catch (e: HttpException) {
                 _binInfo.value = BINInfo()
             }
         }

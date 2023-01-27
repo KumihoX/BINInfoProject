@@ -7,6 +7,6 @@ data class CountryInfo(
     val name: String = "?",
     val emoji: String = "?",
     val currency: String = "?",
-    val latitude: Float ?= null,
-    val longitude: Float ?= null
+    val latitude: Float? = null,
+    val longitude: Float? = null
 )

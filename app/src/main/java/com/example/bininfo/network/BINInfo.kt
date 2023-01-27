@@ -8,7 +8,7 @@ data class BINInfo(
     val scheme: String = "?",
     val type: String = "?",
     val brand: String = "?",
-    val prepaid: Boolean ?= null,
+    val prepaid: Boolean? = null,
     val country: CountryInfo = CountryInfo(),
     val bank: BankInfo = BankInfo()
 )
