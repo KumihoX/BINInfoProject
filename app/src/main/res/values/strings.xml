@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">BINInfo</string>
+    <string name="brand">BRAND</string>
+    <string name="scheme">SCHEME / NETWORK</string>
+    <string name="description">Enter the first digits of a card number (BIN/IIN)</string>
+    <string name="card_number">CARD NUMBER</string>
+    <string name="length">LENGTH</string>
+    <string name="nothing">\?</string>
+    <string name="luhn">LUHN</string>
+    <string name="type">TYPE</string>
+    <string name="prepaid">PREPAID</string>
+    <string name="country">COUNTRY</string>
+    <string name="latitude">latitude</string>
+    <string name="longitude">longitude</string>
+    <string name="bank">BANK</string>
+</resources>
